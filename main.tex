@@ -1,0 +1,93 @@
+% =====================================================================
+% KTU Bakalauro baigiamojo projekto šablonas — 2026 m. versija
+% Programų sistemos (6121BX012), Informatikos fakultetas
+% =====================================================================
+
+\documentclass[12pt]{article}
+
+\usepackage{ktu_thesis_style}
+\usepackage{lipsum} % Tik pavyzdiniam tekstui — pašalinkite rašydami savo darbą.
+
+\begin{document}
+\input{variables.tex}
+
+% Puslapiai numeruojami nuo titulinio (counter=1), bet matomas numeris
+% atsiranda tik nuo turinio (titulinio puslapio aplinka pati nustato
+% \thispagestyle{empty}, taigi pirmieji puslapiai be numerio).
+\pagenumbering{arabic}
+
+\input{TitlePage}
+\input{PageSecond.tex}
+\input{PageThird.tex}
+
+% --- Santrauka LT ir EN ---
+\input{PageSummaryLT.tex}
+\input{PageSummaryEN.tex}
+
+% --- Turinys ---
+\clearpage
+\tableofcontents
+
+% --- Lentelių sąrašas ---
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{\listtablename}
+\listoftables
+
+% --- Paveikslų sąrašas ---
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{\listfigurename}
+\listoffigures
+
+% --- Santrumpų ir terminų sąrašas ---
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Santrumpų ir terminų sąrašas}
+\section*{Santrumpų ir terminų sąrašas}
+\input{chapters/santrumpos_terminai.tex}
+
+% --- Įvadas ---
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Įvadas}
+\section*{Įvadas}
+\input{chapters/ivadas.tex}
+
+% --- Pagrindiniai skyriai (numeruoti) ---
+\input{chapters/01_analize.tex}
+\input{chapters/02_projektas.tex}
+\input{chapters/03_testavimas.tex}
+\input{chapters/04_dokumentacija.tex}
+\input{chapters/05_di_savirefleksija.tex}
+
+% --- Rezultatai ir išvados ---
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Rezultatai ir išvados}
+\section*{Rezultatai ir išvados}
+\input{chapters/rezultatai_isvados.tex}
+
+% --- Literatūros sąrašas ---
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Literatūros sąrašas}
+\renewcommand{\refname}{Literatūros sąrašas}
+\bibliography{references}
+
+% --- Priedai ---
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Priedai}
+\section*{Priedai}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{P\arabic{table}}
+\renewcommand{\thefigure}{P\arabic{figure}}
+% Priedų lentelės/paveikslai nepatenka į Lentelių/Paveikslų sąrašus.
+\captionsetup{list=no}
+\input{chapters/priedai.tex}
+
+\clearpage
+\label{LastPage}
+\end{document}

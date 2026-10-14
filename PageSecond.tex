@@ -1,0 +1,58 @@
+% =====================================================================
+% Antrasis viršelis — formalus titulinis su parasu/data eilutemis,
+% studiju programos kodu, vadovu ir recenzentu (KTU 2026 sablonas).
+% =====================================================================
+
+\definecolor{lines_name}{RGB}{212,175,54}
+
+\begin{titlepage}
+   \begin{center}
+
+       \vspace*{0.3cm}
+       \includegraphics[width=2.46cm]{images/ktu-ikona.pdf}
+       \vspace{0.3cm}
+
+       \textbf{Kauno technologijos universitetas}\\
+       \projectFacultyLT
+
+       \vspace{2cm}
+
+       \LARGE
+       \textbf{\projectTitleLT}\\[0.5em]
+       \large
+       \projectTypeLT\\
+       \projectStudiesLT
+
+       \vspace{2cm}
+
+       \makebox[\linewidth][r]{%
+       \begin{minipage}{9cm}
+       \setlength{\parindent}{0pt}
+       {\color{lines_name}\rule{\linewidth}{0.5pt}}\par
+       \vspace{0.4cm}
+
+       \normalsize
+       \textbf{\projectAuthorNameLT}\\
+       Projekto autorius
+
+       \vspace{0.8cm}
+
+       \textbf{\projectSupervisorPositionLT~\projectSupervisorNameLT}\\
+       Vadovas
+
+       \ifx\projectReviewerNameLT\empty\else
+       \vspace{0.8cm}
+
+       \textbf{\projectReviewerPositionLT~\projectReviewerNameLT}\\
+       Recenzentas
+       \fi
+
+       \vspace{0.4cm}
+       {\color{lines_name}\rule{\linewidth}{0.5pt}}
+       \end{minipage}%
+       }
+
+       \vfill
+       \normalsize\textbf{\projectCity, \projectYear}
+   \end{center}
+\end{titlepage}

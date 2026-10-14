@@ -1,0 +1,351 @@
+% =====================================================================
+% KTU Bakalauro baigiamojo projekto stilius — 2026 m. šablonas
+% Programų sistemos (6121BX012), Informatikos fakultetas
+% =====================================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage{mfirstuc} % For title capitalization
+\MFUnocap{the}\MFUnocap{and}
+
+% Šriftas: Times New Roman, 12 pt
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+% Popieriaus formatas A4, paraštės: kairė 30 mm, dešinė 10 mm,
+% viršus ir apačia po 20 mm.
+\usepackage[a4paper, left=30mm, right=10mm, top=20mm, bottom=20mm]{geometry}
+
+% Kalbos: pagrindinė lietuvių, papildoma anglų (santraukai)
+\usepackage[english,lithuanian]{babel}
+
+% Antraštės ir poraštės — puslapio numeris dešiniame apatiniame kampe
+\usepackage{fancyhdr}
+\fancyhead{}
+\fancyfoot{}
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyfoot[R]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+\fancyhf{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\pagestyle{fancy}
+
+% Eilučių intervalas — 1,15
+\usepackage{setspace}
+\setstretch{1.15}
+
+% Atstumas tarp pastraipų — 10 pt, be įtraukos
+\setlength{\parskip}{10pt}
+\setlength{\parindent}{0em}
+
+% Lankstesnis eilutės laužymas tankiam lietuviškam tekstui
+\setlength{\emergencystretch}{3em}
+
+% Įprasta `article` klasės titlepage aplinka iš naujo nustato puslapių
+% skaitiklį į 1, todėl po kelių titulinių puslapių hyperref sukuria
+% pasikartojančius „page.1“ inkarus. Perrašome į paprastesnę aplinką,
+% kuri tik pereina į naują puslapį ir paslepia numerį.
+\renewenvironment{titlepage}
+    {\clearpage\thispagestyle{empty}}
+    {\clearpage}
+
+% Skyrių antraštės: 12 pt, paryškintos, taškas po numerio, naujame puslapyje
+\usepackage{titlesec}
+\titleformat{\section}
+    {\normalfont\fontsize{12}{14}\bfseries}
+    {\thesection.\quad}{0em}{}
+\titleformat{\subsection}
+    {\normalfont\fontsize{12}{14}\bfseries}
+    {\thesubsection.\quad}{0em}{}
+\titleformat{\subsubsection}
+    {\normalfont\fontsize{12}{14}\bfseries}
+    {\thesubsubsection.\quad}{0em}{}
+\titlespacing*{\section}{0pt}{10pt}{10pt}
+\titlespacing*{\subsection}{0pt}{10pt}{10pt}
+\titlespacing*{\subsubsection}{0pt}{10pt}{10pt}
+
+% Skyrius pradedamas naujame puslapyje
+\titleclass{\section}{top}
+\newcommand\sectionbreak{\clearpage}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=false, hidelinks}
+
+\usepackage{enumitem}
+
+% Lentelės
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{lscape}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{placeins} % \FloatBarrier — riboja float dreifą tarp posistemio paragrafų
+\usepackage{float} % [H] specifikatorius — verčia lentelę / paveikslą stovėti vietoje
+\usepackage{etoolbox} % \AtBeginEnvironment ir kt.
+\newcolumntype{R}{>{\raggedright\arraybackslash}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+% =====================================================================
+% Lentelių stilius — KTU 2026 šablonas (p. 24)
+% --------------------------------------------------------------------
+% • Kūnas: 10 pt, vienetinis intervalas (1,0), 3 pt papildoma eil. aukštis.
+% • Antraštės eilutė lieka paryškinta (kviečiant \textbf{...} pačiame lentelės
+%   kode); fonto dydis sutampa su kūnu (10 pt).
+% • Vertikalios + horizontalios linijos pridedamos rankiniu būdu prie kiekvienos
+%   lentelės (|p{..}| stulpeliai ir \hline, žr. pavyzdį chapters/01_analize.tex);
+%   čia tik nustatomos linijos plotis ir pakeičiamos booktabs taisyklės į
+%   standartinį \hline (vienodos linijos storis).
+% =====================================================================
+\setlength{\arrayrulewidth}{0.5pt}
+\setlength{\extrarowheight}{3pt}
+% Lentelės kūnas: 10 pt šriftas (KTU 2026 šablonas, p. 24).
+% Font dydis nustatomas PRIEŠ \begin{tabular} įgyvendinant \begingroup..\endgroup,
+% nes \AtBeginEnvironment kodas vykdomas tabular alignment-template fazėje, kur
+% \selectfont sukelia „Misplaced \noalign" klaidą.
+\BeforeBeginEnvironment{tabular}{\begingroup\fontsize{10pt}{12pt}\selectfont}
+\AfterEndEnvironment{tabular}{\endgroup}
+\BeforeBeginEnvironment{longtable}{\begingroup\fontsize{10pt}{12pt}\selectfont}
+\AfterEndEnvironment{longtable}{\endgroup}
+% Booktabs storesnės taisyklės -> standartinis vienodo storio \hline.
+% Naudojame \let (be optional-arg overhead), nes jokia mūsų lentelė nenaudoja
+% \toprule[width] sintaksės.
+\AtBeginDocument{%
+  \let\toprule\hline%
+  \let\midrule\hline%
+  \let\bottomrule\hline%
+  \let\cmidrule\cline%
+}
+
+% =====================================================================
+% Panaudojimo atvejo (PA) specifikacijos lentelė.
+%
+% Naudojimas (raktas=reikšmė; tvarka nesvarbi):
+%   \usecasespec{
+%     label=tab:pa-perziureti-tyrimus,
+%     pa=Peržiūrėti visus tyrimus,
+%     tikslas=Atvaizduoti visus tyrimus,
+%     aprasymas={Prisijungęs naudotojas pasirenka nuorodą...},
+%     pries=Naudotojas prisijungęs prie sistemos,
+%     aktoriai={Laborantas, FoxLab},
+%     ispleciantys=Peržiūrėti tyrimo informaciją,
+%     apimami=--,
+%     specializuojami=--,
+%     po=Naudotojas mato visus tyrimus
+%   }
+%
+% Reikšmes su kableliais reikia apgaubti riestiniais skliaustais ({}).
+% Pavadinimas generuojamas automatiškai: ,,<pa>`` PA specifikacija.
+% =====================================================================
+\usepackage{keyval}
+\makeatletter
+\define@key{usecase}{label}{\def\ktu@uc@label{#1}}
+\define@key{usecase}{pa}{\def\ktu@uc@pa{#1}}
+\define@key{usecase}{tikslas}{\def\ktu@uc@tikslas{#1}}
+\define@key{usecase}{aprasymas}{\def\ktu@uc@aprasymas{#1}}
+\define@key{usecase}{pries}{\def\ktu@uc@pries{#1}}
+\define@key{usecase}{aktoriai}{\def\ktu@uc@aktoriai{#1}}
+\define@key{usecase}{ispleciantys}{\def\ktu@uc@ispleciantys{#1}}
+\define@key{usecase}{apimami}{\def\ktu@uc@apimami{#1}}
+\define@key{usecase}{specializuojami}{\def\ktu@uc@specializuojami{#1}}
+\define@key{usecase}{po}{\def\ktu@uc@po{#1}}
+\newcommand{\usecasespec}[1]{%
+  \def\ktu@uc@label{}\def\ktu@uc@pa{}\def\ktu@uc@tikslas{}%
+  \def\ktu@uc@aprasymas{}\def\ktu@uc@pries{}\def\ktu@uc@aktoriai{}%
+  \def\ktu@uc@ispleciantys{--}\def\ktu@uc@apimami{--}%
+  \def\ktu@uc@specializuojami{--}\def\ktu@uc@po{}%
+  \setkeys{usecase}{#1}%
+  \begin{table}[ht]
+  \caption{,,\ktu@uc@pa`` PA specifikacija}\label{\ktu@uc@label}
+  \begin{tabular}{|p{3.8cm}|p{3.4cm}|p{8.0cm}|}
+  \hline
+  \multicolumn{3}{|p{15.5cm}|}{\textbf{PA.} \ktu@uc@pa} \\ \hline
+  \multicolumn{3}{|p{15.5cm}|}{\textbf{Tikslas.} \ktu@uc@tikslas} \\ \hline
+  \multicolumn{3}{|p{15.5cm}|}{\textbf{Aprašymas.} \ktu@uc@aprasymas} \\ \hline
+  \multicolumn{2}{|l|}{\textbf{Prieš sąlyga}} & \ktu@uc@pries \\ \hline
+  \multicolumn{2}{|l|}{\textbf{Aktoriai}} & \ktu@uc@aktoriai \\ \hline
+  \multirow{3}{=}{\textbf{Susiję panaudojimo atvejai}}
+    & \textbf{Išplečiantys PA} & \ktu@uc@ispleciantys \\ \cline{2-3}
+    & \textbf{Apimami PA} & \ktu@uc@apimami \\ \cline{2-3}
+    & \textbf{Specializuojami PA} & \ktu@uc@specializuojami \\ \hline
+  \multicolumn{2}{|l|}{\textbf{Po sąlyga}} & \ktu@uc@po \\ \hline
+  \end{tabular}
+  \end{table}%
+}
+\makeatother
+
+% Pavadinimų formatavimas:
+% Paveikslo pavad.: 11 pt, intervalas 1,15, atstumas 10 pt prieš/po, centruota.
+% Lentelės pavad.: 11 pt, atstumas 10 pt prieš ir 3 pt po, lygiavimas kairėn.
+\usepackage[
+    font={small, stretch=1.15},
+    tableposition=top,
+    figureposition=bottom,
+    labelfont=bf,
+    labelsep=space
+]{caption}
+
+\captionsetup[table]{justification=raggedright,singlelinecheck=false,skip=3pt}
+\captionsetup[figure]{justification=centering,skip=10pt}
+
+% KTU 2026 šablonas (p. 24):
+% Lentelės pavad.: 10 pt prieš, 3 pt po (žinome iš skip aukščiau).
+% Paveikslo pavad.: 10 pt prieš ir po.
+\setlength{\abovecaptionskip}{10pt}
+\setlength{\belowcaptionskip}{3pt}
+
+\usepackage{subcaption}
+
+% Lietuviškas KTU stilius: "1 pav." / "1 lentelė." (skaičius prieš žodį)
+\addto\captionslithuanian{%
+    \renewcommand{\figurename}{pav.}%
+    \renewcommand{\tablename}{lentelė}%
+}
+\DeclareCaptionLabelFormat{ktu-fig}{#2~pav.}
+\DeclareCaptionLabelFormat{ktu-tab}{#2~lentelė.}
+\captionsetup[figure]{labelformat=ktu-fig}
+\captionsetup[table]{labelformat=ktu-tab}
+
+% Lentelių ir paveikslų numeravimas pagal skyrių
+\usepackage{chngcntr}
+\counterwithin{table}{section}
+\counterwithin{figure}{section}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\numberwithin{equation}{section}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing,positioning,arrows.meta}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{csquotes}
+
+% Bibliografija — ISO 690 stilius (technikos mokslai)
+\usepackage[numbers,sort&compress]{natbib}
+\bibliographystyle{ktu_lt}
+% Literatūros sąrašo įrašai numeruojami „1.", „2.", „3." (vietoje „[1]", „[2]").
+% Tekstinės citatos lieka „[1]" — natbib numbers parinkties standartinis stilius.
+\renewcommand{\bibnumfmt}[1]{#1.}
+
+\usepackage{lastpage}
+\usepackage{afterpage}
+
+% --- Turinio, lentelių, paveikslų sąrašų pritaikymas ---
+\usepackage{tocloft}
+
+% "1 pav." / "1 lentelė." sąrašuose
+\renewcommand{\cftfigpresnum}{}
+\renewcommand{\cftfigaftersnum}{~pav.}
+\renewcommand{\cfttabpresnum}{}
+\renewcommand{\cfttabaftersnum}{~lentelė.}
+\settowidth{\cftfignumwidth}{99~pav.\quad}
+\settowidth{\cfttabnumwidth}{99~lentelė.\quad}
+
+% Sąrašų antraščių formatas (12 pt, paryškinta, centruota)
+\renewcommand\cftloftitlefont{\hfill\normalfont\fontsize{12}{14}\bfseries}
+\renewcommand\cftlottitlefont{\hfill\normalfont\fontsize{12}{14}\bfseries}
+\renewcommand\cfttoctitlefont{\hfill\normalfont\fontsize{12}{14}\bfseries}
+\renewcommand\cftafterloftitle{\hfill\null}
+\renewcommand\cftafterlottitle{\hfill\null}
+\renewcommand\cftaftertoctitle{\hfill\null}
+
+\setlength{\cfttabindent}{0pt}
+\setlength{\cftfigindent}{0pt}
+
+% Taškas po skyriaus numerio: "1.", "1.1.", "1.1.1."
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecaftersnum}{.}
+\renewcommand{\cftsubsubsecaftersnum}{.}
+
+% Taškinė linija tarp pavadinimo ir puslapio numerio visiems lygiams.
+% Oficialaus šablono inter-dot atstumas išmatuotas pdfplumber'iu = 3.00pt;
+% tocloft formulė: inter_dot = 2*dotsep*(12pt/18) + ~2.98pt ⇒ dotsep ≈ 0.
+\renewcommand{\cftdotsep}{0}
+\renewcommand{\cftsecdotsep}{\cftdotsep}
+\renewcommand{\cftsubsecdotsep}{\cftdotsep}
+\renewcommand{\cftsubsubsecdotsep}{\cftdotsep}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftsubsecdotsep}}
+\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftsubsubsecdotsep}}
+
+% Vienodas (~16 pt) eilučių tarpas tarp turinio įrašų, kaip oficialiame
+% šablone. Skirtumas tarp lygių nedaromas — visi įrašai turi tą patį
+% baseline-to-baseline atstumą.
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+\setlength{\cftbeforesubsubsecskip}{0pt}
+
+% Turinys, lentelių ir paveikslų sąrašai naudoja vienetinį (1,0) eilučių
+% intervalą bei nulinį \parskip, kad atstumai sutaptų su šablonu (~16 pt).
+% Pagrindinis dokumento intervalas (1,15) ir \parskip 10 pt nepakeičiami.
+% (Vardai be @ ženklo — leidžia veikti ir document scope kontekste, kai
+% \renewcommand kūnas analizuojamas \AtBeginDocument vykdymo metu.)
+\AtBeginDocument{%
+  \let\ktuOrigToc\tableofcontents
+  \renewcommand{\tableofcontents}{%
+    \begingroup
+    \singlespacing
+    \setlength{\parskip}{0pt}%
+    \ktuOrigToc
+    \endgroup
+  }%
+  \let\ktuOrigLof\listoffigures
+  \renewcommand{\listoffigures}{%
+    \begingroup
+    \singlespacing
+    \setlength{\parskip}{0pt}%
+    \ktuOrigLof
+    \endgroup
+  }%
+  \let\ktuOrigLot\listoftables
+  \renewcommand{\listoftables}{%
+    \begingroup
+    \singlespacing
+    \setlength{\parskip}{0pt}%
+    \ktuOrigLot
+    \endgroup
+  }%
+}
+
+% Visi turinio įrašų lygiai pradedami nuo to paties kairiojo krašto
+% (KTU 2026 šablonas: poskyriai/skyreliai NEturi papildomos įtraukos).
+% Numerio plotis padidinamas, kad „1.1." / „1.1.1." tilptų greta antraštės.
+\setlength{\cftsubsecindent}{0pt}
+\setlength{\cftsubsubsecindent}{0pt}
+\setlength{\cftsubsecnumwidth}{3em}
+\setlength{\cftsubsubsecnumwidth}{3.6em}
+
+% Lietuviški pavadinimai (atsarginė priemonė, jei babel kažko nepakeičia)
+\addto\captionslithuanian{%
+    \renewcommand{\contentsname}{Turinys}%
+    \renewcommand{\listfigurename}{Paveikslų sąrašas}%
+    \renewcommand{\listtablename}{Lentelių sąrašas}%
+    \renewcommand{\bibname}{Literatūros sąrašas}%
+    \renewcommand{\refname}{Literatūros sąrašas}%
+    \renewcommand{\appendixname}{Priedas}%
+}
+
+% =====================================================================
+% Priedų numeravimas — pagal KTU 2026 šabloną.
+% \priedas{Pavadinimas} sukuria paryškintą antraštę „N priedas. Pavadinimas"
+% ir įkelia ją į turinį kaip poskyrį po „Priedai" skyriaus.
+% =====================================================================
+\newcounter{priedas}
+\renewcommand{\thepriedas}{\arabic{priedas}}
+\newcommand{\priedas}[1]{%
+  \refstepcounter{priedas}%
+  \par\bigskip%
+  \phantomsection%
+  \addcontentsline{toc}{subsection}{\thepriedas~priedas. #1}%
+  \noindent\textbf{\thepriedas~priedas. #1}%
+  \par\medskip%
+}

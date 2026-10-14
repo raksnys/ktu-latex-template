@@ -1,0 +1,27 @@
+# LaTeX build artefacts
+build/
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.log
+*.lof
+*.lot
+*.out
+*.synctex.gz
+*.toc
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# Legacy editor artefacts
+.texpadtmp/
+.DS_Store
+_config.yml
+
+# Editor
+.vscode/*.log
